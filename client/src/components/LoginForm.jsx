@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { useEffect } from "react";
 const LoginForm = () => {
   const [submitButtonText, setSubmitButtonText] = React.useState("Login");
   const [username, setUsername] = React.useState("");
@@ -12,18 +11,26 @@ const LoginForm = () => {
       username: username,
       password: password,
     });
-    console.table(data);
     setServerResponse(data);
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     submitButtonText === "Login"
       ? setSubmitButtonText("Welcome")
       : setSubmitButtonText("Login");
-    fetchData();
+    if (username === "Fill this in!") return;
+    fetchData().catch((err) => {
+      setUsername("Fill this in!");
+      console.log("Logged at LoginForm.jsx");
+      console.error(err.message);
+      console.table(err);
+      if (err.response.status) {
+        console.warn("Found Info!");
+        console.table({
+          response: err.response,
+        });
+      }
+    });
   };
   return (
     <>
@@ -52,12 +59,14 @@ const LoginForm = () => {
         </div>
         <button type="submit">{submitButtonText}</button>
       </form>
-      <div>
-        <h2>Server says:</h2>
-        <p>Message: {serverResponse.message}</p>
-        <p>Received username: {serverResponse.usernameReceived}</p>
-        <p>Receivded password: {serverResponse.passwordReceived}</p>
-      </div>
+      {serverResponse && (
+        <div>
+          <h2>Server says:</h2>
+          <p>Message: {serverResponse.message}</p>
+          <p>Received username: {serverResponse.usernameReceived}</p>
+          <p>Receivded password: {serverResponse.passwordReceived}</p>
+        </div>
+      )}
     </>
   );
 };
