@@ -7,8 +7,6 @@
 const app = require("../app");
 const debug = require("debug")("server:server");
 const http = require("http");
-const dotenv = require("dotenv");
-dotenv.config();
 
 /**
  * Get port from environment and store in Express.
