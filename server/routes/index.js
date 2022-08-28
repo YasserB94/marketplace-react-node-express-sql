@@ -3,7 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+  if (req.session.timesvisited) {
+    req.session.timesvisited++;
+  } else {
+    req.session.timesvisited = 1;
+  }
+  res.render("index", {
+    timesvisited: req.session.timesvisited,
+    title: "shop",
+  });
 });
 
 module.exports = router;

@@ -6,8 +6,18 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-//Req Session
+//Session stuff
+const options = {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+};
 const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
+const sessionStore = new MySQLStore(options);
+
 //IMPORT ROUTERS
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -16,7 +26,6 @@ const app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-let sessionStore = [];
 //SET MIDDLEWARE
 app.use(logger("dev"));
 app.use(express.json());
@@ -26,12 +35,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
-    secret: "Shshshhss",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    sessionStore: sessionStore,
+    store: sessionStore,
     cookie: {
-      hello: "I am a cookie!",
+      maxAge: 1000 * 60 * 60 * 24, //This is one day,
     },
   })
 );

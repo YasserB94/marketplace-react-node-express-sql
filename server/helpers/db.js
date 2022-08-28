@@ -10,8 +10,6 @@ const pool = mariadb.createPool({
 
 //Check for errors if none release connection
 pool.getConnection((error, connection) => {
-  console.log("CHECK");
-  console.log(process.env.DB_HOST);
   if (error) {
     switch (error.code) {
       case "PROTOCOL_CONNECTION_LOST":
