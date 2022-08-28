@@ -1,0 +1,11 @@
+#Sharing .gitignore for cross device development
+#.gitignore
+#NodeJS
+node_modules
+/server/node_modules
+#private
+.env
+
+#OS
+
+#IDE
