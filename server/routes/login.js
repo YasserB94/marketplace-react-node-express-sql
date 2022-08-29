@@ -1,5 +1,5 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 //MiddleWare example
 function middleware(req, res, next) {
@@ -10,6 +10,14 @@ function middleware(req, res, next) {
     usernameReceived: username,
     passwordReceived: password,
   });
+  next();
+}
+function visitedCounter(req, res, next) {
+  if (req.session.timesvisited) {
+    req.session.timesvisited++;
+  } else {
+    req.session.timesvisited = 1;
+  }
   next();
 }
 //Errorhandler example
@@ -24,15 +32,17 @@ router.get("/", function (req, res, next) {
 });
 
 //Frontend Connection test
-router.post("/", middleware, errorHandler, (req, res, next) => {
+router.post("/", middleware, visitedCounter, errorHandler, (req, res, next) => {
   const { username, password } = req.body;
   if (!username && password) {
     res.status(400);
   }
+
   res.send({
     message: "Request received at /login",
     usernameReceived: username,
     passwordReceived: password,
+    timesvisited: req.session.timesvisited,
   });
 });
 

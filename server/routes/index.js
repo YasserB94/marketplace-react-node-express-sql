@@ -10,7 +10,7 @@ router.get("/", function (req, res, next) {
   }
   res.render("index", {
     timesvisited: req.session.timesvisited,
-    title: "shop",
+    title: "Express EJS rendered @ Index!",
   });
 });
 

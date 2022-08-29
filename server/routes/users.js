@@ -8,7 +8,6 @@ router.get("/", function (req, res, next) {
   } else {
     req.session.timesvisited = 1;
   }
-
   res.send(`Welcome back for the ${req.session.timesvisited} time`);
 });
 
