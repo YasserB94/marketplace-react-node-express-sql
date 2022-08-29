@@ -6,11 +6,11 @@ const LoginForm = () => {
   const [password, setPassword] = React.useState("");
   const [serverResponse, setServerResponse] = React.useState("");
   const fetchData = async () => {
-    const baseurl = "http://localhost:3050";
+    const baseurl = "http://localhost:3050"; //TODO:: STORE GLOBALLY
     const response = await axios.post(
-      baseurl + "/login", //Where to
+      baseurl + "/login", //Route Endpoint
       {
-        //Headers/Login Body
+        //Request body?
         username: username,
         password: password,
       },
@@ -44,7 +44,6 @@ const LoginForm = () => {
   };
   return (
     <>
-      <h2>You have visited {serverResponse.timesvisited} times!</h2>
       <form
         onSubmit={(e) => {
           handleSubmit(e);
@@ -70,6 +69,9 @@ const LoginForm = () => {
         </div>
         <button type="submit">{submitButtonText}</button>
       </form>
+      {serverResponse.timesvisited && (
+        <h2>You have visited {serverResponse.timesvisited} times!</h2>
+      )}
       {serverResponse && (
         <div>
           <h2>Server says:</h2>
