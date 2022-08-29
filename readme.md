@@ -11,14 +11,25 @@
 2. Create Express app
 
 
-----DB INFO
-App Expects DB called online_shop
-App expects table test with ID_PK,name
+Server
+    - Express app with EJS view engine
+    - Added nodemon for dev
+    - Added dotenv
+    - Added DB connection
+    - Setup session & SQL session store
+    - setup cors 
+        - set credentials to true -> Take cookies
 
-
----dontenv
-PORT
-DB_HOST
-DB_USER
-DB_PASSWORD
-DB_NAME
+Client
+    - React App
+    - Tested backend connection
+    - Created login form to test server side session storage
+        - Had to add extra options to postrequest 
+        - set withCredentials:true to make sure session? cookies are sent
+    - Added Counter
+        - Reads data sent by server (counting data -> Sent in body)
+    - Try to read straight from  cookie
+        - Currently cannot work since JS has no access to httponly cookies!
+            - Source: Stackoverflow
+            - Solution: install a bunch of npm packages => NOPE
+                - Handle it server side! => Yush
