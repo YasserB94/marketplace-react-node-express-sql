@@ -6,11 +6,20 @@ const LoginForm = () => {
   const [password, setPassword] = React.useState("");
   const [serverResponse, setServerResponse] = React.useState("");
   const fetchData = async () => {
-    const url = "http://localhost:3050/login";
-    const { data } = await axios.post(url, {
-      username: username,
-      password: password,
-    });
+    const baseurl = "http://localhost:3050";
+    const response = await axios.post(
+      baseurl + "/login", //Where to
+      {
+        //Headers/Login Body
+        username: username,
+        password: password,
+      },
+      {
+        //Axios Options
+        withCredentials: true,
+      }
+    );
+    const { data } = response;
     setServerResponse(data);
   };
   const handleSubmit = (e) => {
@@ -21,6 +30,7 @@ const LoginForm = () => {
     if (username === "Fill this in!") return;
     fetchData().catch((err) => {
       setUsername("Fill this in!");
+
       console.log("Logged at LoginForm.jsx");
       console.error(err.message);
       console.table(err);
@@ -34,6 +44,7 @@ const LoginForm = () => {
   };
   return (
     <>
+      <h2>You have visited {serverResponse.timesvisited} times!</h2>
       <form
         onSubmit={(e) => {
           handleSubmit(e);
