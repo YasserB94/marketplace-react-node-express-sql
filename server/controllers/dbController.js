@@ -1,5 +1,4 @@
 const pool = require("../helpers/db");
-
 class DatabaseController {
   pool;
   constructor() {
@@ -9,7 +8,6 @@ class DatabaseController {
       this.pool = this.pool;
     }
   }
-
   //ASYNC
   async doQuery(query, values) {
     try {
@@ -34,7 +32,6 @@ class DatabaseController {
       throw err;
     }
   }
-
   //SYNC
   parseResultToArray(queryResult) {
     try {
