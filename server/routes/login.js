@@ -1,17 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-//MiddleWare example
-function middleware(req, res, next) {
-  console.log("Logged @ login.js");
-  console.log("Middleware Example");
-  const { username, password } = req.body;
-  console.table({
-    usernameReceived: username,
-    passwordReceived: password,
-  });
-  next();
-}
+//MiddleWare example - Logs received username/password
+// function middleware(req, res, next) {
+//   console.log("Logged @ login.js");
+//   console.log("Middleware Example");
+//   const { username, password } = req.body;
+//   console.table({
+//     usernameReceived: username,
+//     passwordReceived: password,
+//   });
+//   next();
+// }
+//MiddleWare enabled on base POST route -> Will set timesvisitedcounter
 function visitedCounter(req, res, next) {
   if (req.session.timesvisited) {
     req.session.timesvisited++;
@@ -24,7 +25,7 @@ function visitedCounter(req, res, next) {
 function errorHandler(err, req, res, next) {
   console.log("Logged @ login.js");
   console.log("Errorhandler Example");
-  next();
+  err ? next(err) : next();
 }
 //Say Hello from this route
 router.get("/", function (req, res, next) {
@@ -32,7 +33,7 @@ router.get("/", function (req, res, next) {
 });
 
 //Frontend Connection test
-router.post("/", middleware, visitedCounter, errorHandler, (req, res, next) => {
+router.post("/", visitedCounter, errorHandler, (req, res, next) => {
   const { username, password } = req.body;
   if (!username && password) {
     res.status(400);
