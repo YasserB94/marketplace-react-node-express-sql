@@ -2,7 +2,11 @@
 #.gitignore
 #NodeJS
 node_modules
+package-lock.json 
 /server/node_modules
+/server/package-lock.json
+/client/node_modules
+/client/package-lock.json
 #private
 .env
 
